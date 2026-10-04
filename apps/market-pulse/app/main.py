@@ -432,7 +432,11 @@ def create_app(data_dir: str | Path | None = None, password: str | None = None,
 def run() -> None:
     import uvicorn
     print('Market Pulse dashboard: http://127.0.0.1:8000', flush=True)
-    uvicorn.run('app.main:app', host='127.0.0.1', port=int(os.getenv('PORT', '8000')), reload=False)
+    uvicorn.run(app, host='127.0.0.1', port=int(os.getenv('PORT', '8000')), reload=False)
 
 
 app = create_app()
+
+
+if __name__ == '__main__':
+    run()
