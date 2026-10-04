@@ -87,6 +87,7 @@ def test_settings_invalid_values_and_logout(client):
 
 def test_dashboard_and_error_responses(client):
     assert client.get('/').status_code == 200
+    assert client.get('/static/app.mjs').headers['content-type'].startswith('text/javascript')
     assert "default-src 'self'" in client.get('/').headers['content-security-policy']
     login(client)
     for route in ('assets', 'sources', 'articles', 'jobs', 'notifications'):

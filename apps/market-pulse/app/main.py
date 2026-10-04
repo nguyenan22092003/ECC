@@ -5,6 +5,7 @@ import base64
 import hashlib
 import hmac
 import json
+import mimetypes
 import os
 import secrets as random_secrets
 import time
@@ -19,6 +20,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.db import Store
 from app.engine import Engine
+
+mimetypes.add_type('text/javascript', '.mjs')
 
 BASE = Path(__file__).resolve().parents[1]
 WEB = BASE / 'web'
@@ -239,8 +242,8 @@ def create_app(data_dir: str | Path | None = None, password: str | None = None,
 
     @app.get('/')
     async def home():
-        if bootstrap_message:
-            print(bootstrap_message, flush=True)
+        if app.state.bootstrap_message:
+            print(app.state.bootstrap_message, flush=True)
             app.state.bootstrap_message = None
         return FileResponse(WEB / 'index.html')
 
